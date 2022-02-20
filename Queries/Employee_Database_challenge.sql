@@ -1,7 +1,7 @@
-------------------------------------------------------------------------------------------------------------------------
+
 --Deliverable 1: 
----------------------------------------------------------------------------------------------------------------------
---The Number of Retiring Employees by Title.
+
+--The Number of Retiring Employees (by Title)
 SELECT e.emp_no,
 	e.first_name, 
 	e.last_name, 
@@ -25,7 +25,7 @@ INTO unique_titles
 FROM retirement_titles as rt
 ORDER BY rt.emp_no, rt.to_date DESC;
 
--- The number of employees by their most recent job title who are about to retire.
+-- The number of employees by  most recent job title.
 SELECT COUNT(ut.title), ut.title
 INTO retiring_titles
 FROM unique_titles as ut
@@ -33,10 +33,10 @@ GROUP BY ut.title
 ORDER BY count DESC;
 
 
-------------------------------------------------------------------------------------------------------------------------
+
 --Deliverable 2: 
------------------------------------------------------------------------------------------------------------------------------
---The Employees Eligible for the Mentorship Program.
+
+--Employees Eligible for Mentorship Program.
 SELECT DISTINCT ON (e.emp_no)
 	e.emp_no,
 	e.first_name, 
@@ -56,10 +56,10 @@ AND (de.to_date = '9999-01-01')
 ORDER BY e.emp_no, ti.from_date DESC;
 
 
-------------------------------------------------------------------------------------------------------------------------
+
 --For Deliverable 3:
-------------------------------------------------------------------------------------------------------------------------
---Roles per Staff and Departament: 
+
+--Roles per Staff Positions and Departament. 
 SELECT DISTINCT ON (rt.emp_no) 
 	rt.emp_no,
 	rt.first_name,
@@ -74,14 +74,14 @@ INNER JOIN departments as d
 ON (d.dept_no = de.dept_no)
 ORDER BY rt.emp_no, rt.to_date DESC;
 
--- How many roles will need to be fill per title and department?
+-- How many roles need to be fill per title and department?
 SELECT ut.dept_name, ut.title, COUNT(ut.title) 
 INTO rolls_to_fill
 FROM (SELECT title, dept_name from unique_titles_department) as ut
 GROUP BY ut.dept_name, ut.title
 ORDER BY ut.dept_name DESC;
 
--- Qualified staff, retirement-ready to mentor next generation.
+-- Qualified staff, retirement-ready - to mentor new emps.
 SELECT ut.dept_name, ut.title, COUNT(ut.title) 
 INTO qualified_staff
 FROM (SELECT title, dept_name from unique_titles_department) as ut
@@ -89,4 +89,4 @@ WHERE ut.title IN ('Senior Engineer', 'Senior Staff', 'Technique Leader', 'Manag
 GROUP BY ut.dept_name, ut.title
 ORDER BY ut.dept_name DESC;
 
-------------------------------------------------------------------------------------------------------------------------
+
